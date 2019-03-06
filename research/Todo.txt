@@ -1,0 +1,34 @@
+Volatilty
+
+Strength of move.
+When price goes up or down, there is an increase in volatility.
+When price moves sideways, volatility is low.
+The more volatility in a large move, the more interest or pressure there is reinforcing that move. (Calculate volatility amount?)
+
+- Bollinger
+- Keltner channels
+- Average True Volatilty (only works looking at charts, value changes per price value)
+
+
+Oscillators
+
+Signals: buy or sell
+
+- MACD: positive means increasing trend. MACD intersection with signal line, if MACD going down, sell signal
+- KST: smoother than MACD, use this.
+- Swing Index. Only for short trading, many signals
+
+
+
+Trend detection
+
+- Accumulated Swing Index: confirmation of trend. Not very smooth, little information about future deicions
+- DMI: ADX shows trend strength and DMI+ shows upward if > 0 and DMI - shows downward if > 0.
+if they cross, there is a reversal. Good as a complement, for trend direction and strength confirmation
+
+Volume
+
+Confirm trends
+
+- On-Balance Volume (OBV): Cumulative volume. Adding on high volume, subtracting on low volume
+If OBV is rising and price isn't, price is likely to follow the OBV and start rising. If price is rising and OBV is flat-lining or falling, the price may be near a top. If the price is falling and OBV is flat-lining or rising, the price could be nearing a bottom.
