@@ -15,8 +15,9 @@ Oscillators
 Signals: buy or sell
 
 - MACD: positive means increasing trend. MACD intersection with signal line, if MACD going down, sell signal
-- KST: smoother than MACD, use this.
+- KST: smoother than MACD, use this. Find how to calculate ove bought and oversold lines
 - Swing Index. Only for short trading, many signals
+- RSI
 
 
 
