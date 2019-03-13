@@ -19,8 +19,6 @@ Signals: buy or sell
 - Swing Index. Only for short trading, many signals
 - RSI
 
-
-
 Trend detection
 
 - Accumulated Swing Index: confirmation of trend. Not very smooth, little information about future deicions
