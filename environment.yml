@@ -40,5 +40,5 @@ dependencies:
   - more-itertools==3.2.0
   - quandl==3.2.0
   - urllib3==1.21.1
-prefix: C:\Users\Carlos-Lenovo\Anaconda3\envs\algobin
+prefix: C:\Users\Carlos-Lenovo\Anaconda3\envs\algobin\research
 
