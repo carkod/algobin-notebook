@@ -1,60 +1,20 @@
-#%% Change working directory from the workspace root to the ipynb file location. Turn this addition off with the DataScience.changeDirOnImportExport setting
-import os
-try:
-	os.chdir(os.path.join(os.getcwd(), 'research'))
-	print(os.getcwd())
-except:
-	pass
-#%% [markdown]
-# # Keltner channels
-# 
-# Keltner channels has a thinner volatility than Bollinger band.  
-#   
-# It has 3 lines:  
-#   
-# Middle Line: 20-day exponential moving average  
-# Upper Channel Line: 20-day EMA + (2 x ATR(10))  
-# Lower Channel Line: 20-day EMA - (2 x ATR(10)) 
-#   
-# Trading view uses KC(20,1) with 20-day EMA and 
-# 
-# 
-# he True Range is the largest of the following:
-# 
-# The Current Period High minus (-) Current Period Low
-# The Absolute Value (abs) of the Current Period High minus (-) The Previous Period Close
-# The Absolute Value (abs) of the Current Period Low minus (-) The Previous Period Close
-# 
-# true range=max[(high - low), abs(high - previous close), abs (low - previous close)]
-# 
-# *Absolute Value is used because the ATR does not measure price direction, only volatility. 
-# Therefore there should be no negative numbers.
-# 
-# *Once you have the True Range, the Average True Range can be plotted. 
-# The ATR is an Exponential Moving Average of the True Range.
-#%% [markdown]
-# ## 1. Prepare candlesticks
-# 
-# Copied from other notebooks
-
 #%%
 # libraries
+import os
 import urllib.request as r
 import json
 import pandas as pd
 import numpy as np
 import matplotlib as plt
-# candlestick
-from mpl_finance import candlestick2_ochl
-from mpl_finance import candlestick_ohlc
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-get_ipython().run_line_magic('matplotlib', 'inline')
+# get_ipython().run_line_magic('matplotlib', 'inline')
 
+# %%
+# Variables
+base = os.getenv("BINANCEAPI_BASE")
 
 #%%
 # Get data for a single crypto e.g. BTT in BNB market
-base = 'https://api.binance.com'
+# base = 'https://api.binance.com'
 ticker24 = '/api/v1/ticker/24hr'
 candlestick = '/api/v1/klines'
 params = '?symbol=WANBNB&interval=1d'

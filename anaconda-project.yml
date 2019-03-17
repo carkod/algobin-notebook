@@ -41,9 +41,10 @@ commands:
 # In the variables section, list any environment variables your code depends on.
 # Use `anaconda-project add-variable` to add variables.
 #
-variables: {}
-
-
+variables:
+  BINANCEAPI_BASE: "https://api.binance.com"
+  BINANCEAPI_TICKER24: "/api/v1/ticker/24hr"
+  BINANCEAPI_CANDLESTICK: "/api/v1/klines"
 
 #
 # In the services section, list any services that should be
