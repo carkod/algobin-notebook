@@ -37,6 +37,9 @@ commands:
   start:
     windows: python app/
     env_spec: algobin
+  app:
+    windows: app/
+    env_spec: algobin
 #
 # In the variables section, list any environment variables your code depends on.
 # Use `anaconda-project add-variable` to add variables.
@@ -146,8 +149,6 @@ platforms:
 #
 env_specs:
   algobin:
-    packages:
-    - notebook
     channels: []
 
 

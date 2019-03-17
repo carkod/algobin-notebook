@@ -11,7 +11,6 @@ import matplotlib as plt
 # %%
 # Variables
 base = os.getenv("BINANCEAPI_BASE")
-
 #%%
 # Get data for a single crypto e.g. BTT in BNB market
 # base = 'https://api.binance.com'
