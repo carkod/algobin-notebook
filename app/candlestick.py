@@ -3,22 +3,19 @@ from math import pi
 import pandas as pd
 
 from bokeh.plotting import figure, show, output_file
-from bokeh.sampledata.stocks import MSFT
+def candlestick_plot(df):
 
+    df["Close time"] = pd.to_datetime(df["Close time"])
 
-def candlestick_plot():
-
-    df = pd.DataFrame(MSFT)[:50]
-    df["date"] = pd.to_datetime(df["date"])
-
-    inc = df.close > df.open
-    dec = df.open > df.close
+    inc = df['Close time'] > df['Open time']
+    dec = df['Open time'] > df['Close time']
     w = 12*60*60*1000  # half day in ms
 
     TOOLS = "pan,wheel_zoom,box_zoom,reset,save"
 
+       # Options
     p = figure(x_axis_type="datetime", tools=TOOLS,
-               plot_width=1000, title="MSFT Candlestick")
+               plot_width=1000, title="BTTBNB candlestick")
     p.xaxis.major_label_orientation = pi/4
     p.grid.grid_line_alpha = 0.3
 

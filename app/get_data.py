@@ -5,13 +5,8 @@ import json
 import pandas as pd
 import numpy as np
 import matplotlib as plt
-
 import urllib.parse as urlparse
 from urllib.parse import urlencode
-# get_ipython().run_line_magic('matplotlib', 'inline')
-
-# %%
-# Variables
 from environment import api_url
 
 def request_data():
@@ -31,7 +26,7 @@ def request_data():
 
     url_parts = list(urlparse.urlparse(base_url))
     query = dict(urlparse.parse_qsl(url_parts[4]))
-    query.update(get_params(symbol, interval))
+    query.update(params)
     url_parts[4] = urlencode(query)
     url = urlparse.urlunparse(url_parts)
     httpRes = r.urlopen(url)
@@ -40,6 +35,10 @@ def request_data():
     
     return data
 
+def static_data():
+    with open("app/data/candlestick.json") as json_file:
+        data = json.load(json_file)
+        return formatData(data)
 
 #%%
 
@@ -55,4 +54,7 @@ def formatData(data):
     df['Close time'] = pd.to_datetime(df['Close time'], unit='ms')
     df[['Open', 'High', 'Low', 'Close', 'Taker buy quote asset volume']] = df[['Open', 'High', 'Low', 'Close', 'Taker buy quote asset volume']].apply(lambda x: x.astype(float))
     df[['Volume', 'Taker buy base asset volume']] = df[['Volume', 'Taker buy base asset volume']].apply(lambda x: x.astype(float))
-    df.info()
+    return df
+
+def get_data():
+    return formatData(request_data())
