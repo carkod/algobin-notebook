@@ -1,8 +1,9 @@
+#%%
 from math import pi
-
 import pandas as pd
-
 from bokeh.plotting import figure, show, output_file
+
+#%%
 def candlestick_plot(df):
 
     df["Close time"] = pd.to_datetime(df["Close time"])
@@ -19,10 +20,10 @@ def candlestick_plot(df):
     p.xaxis.major_label_orientation = pi/4
     p.grid.grid_line_alpha = 0.3
 
-    p.segment(df.date, df.high, df.date, df.low, color="black")
-    p.vbar(df.date[inc], w, df.open[inc], df.close[inc],
+    p.segment(df['Close time'], df['High'], df['Close time'], df['Low'], color="black")
+    p.vbar(df['Close time'], w, df['Open'], df['Close'],
            fill_color="#D5E1DD", line_color="black")
-    p.vbar(df.date[dec], w, df.open[dec], df.close[dec],
+    p.vbar(df['Close time'], w, df['Open'], df['Close'],
            fill_color="#F2583E", line_color="black")
 
     return p
