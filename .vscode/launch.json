@@ -9,7 +9,7 @@
             "internalConsoleOptions": "openOnSessionStart",
             "program": "${workspaceFolder}/app/",
             "args": [],
-            "pythonPath": "${workspaceFolder}/envs/algobin/python.exe"
+            "pythonPath": "C:\\Users\\Carlos-Lenovo\\Anaconda3\\envs\\lenovo\\python.exe"
         },
         {
             "name": "Default indra: project",
@@ -18,7 +18,7 @@
             "console": "integratedTerminal",
             "program": "${workspaceFolder}/app/",
             "args": [],
-            "pythonPath": "${workspaceFolder}/envs/algobin/python.exe"
+            "pythonPath": "D:\\anaconda3\\envs\\indra\\python.exe"
         },
         {
             "name": "Python: Current File (Integrated Terminal)",
@@ -26,16 +26,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "pythonPath": "${workspaceFolder}/envs/algobin/python.exe"
-        },
-        {
-            "name": "Anaconda: bokeh",
-            "type": "python",
-            "request": "launch",
-            "module": "bokeh",
-            "console": "integratedTerminal",
-            "args": ["serve", "${workspaceFolder}/app/", "--show"],
             "pythonPath": "${config:python.pythonPath}"
-        },
+        }
     ]
 }

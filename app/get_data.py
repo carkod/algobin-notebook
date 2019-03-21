@@ -24,7 +24,7 @@ def request_data():
         'interval': interval,
     }
 
-    url_parts = list(urlparse.urlparse(base_url))
+    url_parts = list(urlparse.urlparse(base_url + candlestick_url))
     query = dict(urlparse.parse_qsl(url_parts[4]))
     query.update(params)
     url_parts[4] = urlencode(query)
@@ -48,7 +48,7 @@ def formatData(data):
     # change default precision of decimals
     pd.set_option("display.precision", 8)
     # clean and parse data
-    dateFormat = '%d/%m/%Y'
+    # dateFormat = '%d/%m/%Y'
     # df.drop('ignore', axis=1, inplace=True)
     df['Open time'] = pd.to_datetime(df['Open time'], unit='ms')
     df['Close time'] = pd.to_datetime(df['Close time'], unit='ms')
