@@ -1,7 +1,6 @@
 name: lenovo
 channels:
   - defaults
-  - pip
 dependencies:
   - autopep8=1.4.3=py37_0
   - blas=1.0=mkl

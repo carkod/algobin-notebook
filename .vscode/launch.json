@@ -15,7 +15,8 @@
             "name": "Default indra: project",
             "type": "python",
             "request": "launch",
-            "console": "integratedTerminal",
+            "console": "none",
+            "internalConsoleOptions": "openOnSessionStart",
             "program": "${workspaceFolder}/app/",
             "args": [],
             "pythonPath": "D:\\anaconda3\\envs\\indra\\python.exe"
