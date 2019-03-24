@@ -1,3 +1,5 @@
+PLOTTING DOES NOT WORK WITH DEBUGGER
+
 # algobin-notebook
 Research Jupyter Notebook for algobin algorithmic trading
 

@@ -3,6 +3,7 @@
     "git.ignoreLimitWarning": true,
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.venvPath": "~\\Anaconda3\\envs",
-    "python.pythonPath": "C:\\Users\\Carlos-Lenovo\\Anaconda3\\envs\\test\\python.exe",
+    "python.venvPath": "C:\\Users\\Carlos-Lenovo\\Anaconda3\\envs",
+    "python.pythonPath": "C:\\Users\\Carlos-Lenovo\\Anaconda3\\envs\\test1\\python.exe",
+    // "python.pythonPath": "C:\\Users\\Carlos-Lenovo\\Anaconda3\\envs\\test",
 }

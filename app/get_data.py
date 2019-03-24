@@ -1,12 +1,9 @@
 #%%
 # libraries
-import urllib.request as r
+import requests
 import json
 import pandas as pd
 import numpy as np
-import matplotlib as plt
-import urllib.parse as urlparse
-from urllib.parse import urlencode
 from environment import api_url
 
 def request_data():
@@ -17,22 +14,14 @@ def request_data():
     asset = "BTT"
     interval = "1d"
     symbol = asset + assetMarket
-#%%
-# Get data for a single crypto e.g. BTT in BNB market
+    # Get data for a single crypto e.g. BTT in BNB market
     params = {
         'symbol': symbol,
         'interval': interval,
     }
 
-    url_parts = list(urlparse.urlparse(base_url + candlestick_url))
-    query = dict(urlparse.parse_qsl(url_parts[4]))
-    query.update(params)
-    url_parts[4] = urlencode(query)
-    url = urlparse.urlunparse(url_parts)
-    httpRes = r.urlopen(url)
-    data = json.load(httpRes)
-
-    
+    r = requests.get(base_url + candlestick_url, params=params)
+    data = r.json()
     return data
 
 def static_data():
