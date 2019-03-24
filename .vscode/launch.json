@@ -7,16 +7,15 @@
             "request": "launch",
             "console": "none",
             "internalConsoleOptions": "openOnSessionStart",
-            "program": "${workspaceFolder}/app/",
+            "program": "${workspaceFolder}/app",
             "args": [],
-            "pythonPath": "C:\\Users\\Carlos-Lenovo\\Anaconda3\\envs\\lenovo\\python.exe"
         },
         {
             "name": "Default indra: project",
             "type": "python",
             "request": "launch",
             "console": "integratedTerminal",
-            "program": "${workspaceFolder}/app/",
+            "program": "${workspaceFolder}",
             "args": [],
             "pythonPath": "D:\\anaconda3\\envs\\indra\\python.exe"
         },
