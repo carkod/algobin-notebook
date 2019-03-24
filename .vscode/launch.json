@@ -7,7 +7,7 @@
             "request": "launch",
             "console": "none",
             "internalConsoleOptions": "openOnSessionStart",
-            "program": "${workspaceFolder}/app",
+            "program": "${workspaceFolder}/app/__main__.py",
             "args": [],
         },
         {
