@@ -2,6 +2,6 @@
 # #Get data from API
 
 #%%
-from algorithms import sudden_inc
+import algorithms.sudden_inc
 
 sudden_inc()

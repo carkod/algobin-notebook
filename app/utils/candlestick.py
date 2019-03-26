@@ -5,7 +5,6 @@ from bokeh.plotting import *
 output_notebook()
 # %%
 
-
 def candlestick_plot(df):
 
     df["Close time"] = pd.to_datetime(df["Close time"])
