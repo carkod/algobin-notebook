@@ -3,4 +3,5 @@
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "python.venvPath": "C:\\Users\\Carlos-Lenovo\\Anaconda3\\envs",
+    "python.pythonPath": "D:\\miniconda3\\envs\\test1\\python.exe",
 }

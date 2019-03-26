@@ -14,10 +14,11 @@
             "name": "Default indra: project",
             "type": "python",
             "request": "launch",
-            "console": "integratedTerminal",
-            "program": "${workspaceFolder}",
+            "console": "none",
+            "internalConsoleOptions": "openOnSessionStart",
+            "program": "${workspaceFolder}/app/__main__.py",
             "args": [],
-            "pythonPath": "D:\\anaconda3\\envs\\indra\\python.exe"
+            "pythonPath": "D:\\miniconda3\\envs\\test1\\python.exe",
         },
         {
             "name": "Python: Current File (Integrated Terminal)",

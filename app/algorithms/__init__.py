@@ -1,1 +1,1 @@
-from . import sudden_inc 
+from app.algorithms import sudden_inc 
