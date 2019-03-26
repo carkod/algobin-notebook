@@ -2,10 +2,9 @@
 
 import pandas as pd
 import numpy as np
-from app.utilities import Data
-import app.utils.candlestick
-from app.utils.indicators import bollinger_bands, moving_average
-from app.utils.api import EnumDefinitions
+from app.utilities import Data, api
+from app.utilities.indicators import bollinger_bands, moving_average
+from app.utilities.api import EnumDefinitions
 
 #%% 
 def __init__():
@@ -50,7 +49,4 @@ def trend_signal(parameter_list):
     diff_close_open = last4_df['Close'] > last4_df['BollinguerB20']
     notification_text = 'Strong upward trend {time_period}'
     return diff_close_open.all()
-
-# %%
-def 
 
