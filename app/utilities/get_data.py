@@ -5,13 +5,12 @@ import json
 import pandas as pd
 import numpy as np
 from app.utilities.environment import api_url
-# from environment import (BINANCEAPI_BASE,BINANCEAPI_TICKER24,BINANCEAPI_CANDLESTICK)
 
 class Data(object):
     def request_data(self, interval):
-        base_url = BINANCEAPI_BASE
-        ticker24_url = BINANCEAPI_TICKER24
-        candlestick_url = BINANCEAPI_CANDLESTICK
+        base_url = api_url.BINANCEAPI_BASE
+        ticker24_url = api_url.BINANCEAPI_TICKER24
+        candlestick_url = api_url.BINANCEAPI_CANDLESTICK
         assetMarket = "BNB"
         asset = "BTT"
         interval = "1d"
@@ -31,9 +30,6 @@ class Data(object):
         with open("app/data/candlestick.json") as json_file:
             data = json.load(json_file)
             return formatData(data)
-
-    # %%
-
 
     def formatData(data):
         columns = ['Open time', 'Open', 'High', 'Low', 'Close', 'Volume', 'Close time', 'Quote asset volume',

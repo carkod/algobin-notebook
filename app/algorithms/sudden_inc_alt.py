@@ -7,16 +7,15 @@ from app.utilities.indicators import bollinger_bands, moving_average
 from app.utilities.api import EnumDefinitions
 
 #%% 
-def __init__(self):
-    """ Sudden increase standard
-        - Bollinger bands
-        - MACD
+def __init__():
+    """ Sudden increase Alternative method
+        - Know Sure Thing (KST)
+        - 
         - Buy algorithm
         - Checks small periods (5m, 15m, 30m)
         Indicators are used to detect buy signal
     """
-    self.interval = EnumDefinitions.chart_intervals[2:5]
-    self.time_period = '30m'
+    interval = EnumDefinitions.chart_intervals[2:5]
 
 #%%
 from bokeh.plotting import figure, show
@@ -40,15 +39,13 @@ def obtain_data():
 def trend_signal(parameter_list):
     # Green candle higher than Upper bollinger
     # Last 4 values are true
-    
+    time_period = '30m'
     last4_df = new_df.tail(4)
     last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
     # If close price is higher than upper BB 4 times - buy
     diff_close_open = last4_df['Close'] > last4_df['BollinguerB20']
-    notification_text = 'Bollinger bands indicates Strong upward trend for 30minute period'
+    notification_text = 'Strong upward trend {time_period}'
     coordinates = (last4_df.tail(1)['Close'], last4_df.tail(1)['Close time'])
     coordinates
     return diff_close_open.all()
 
-#%%
-def oscillator_signal():
