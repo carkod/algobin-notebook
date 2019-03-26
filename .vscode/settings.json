@@ -1,7 +1,6 @@
 {
-    // "python.pythonPath": "C:\\Users\\Carlos-Lenovo\\Anaconda3\\envs\\lenovo\\python.exe",
     "git.ignoreLimitWarning": true,
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.pythonPath": "D:\\miniconda3\\envs\\lenovo\\python.exe",
+    "python.venvPath": "C:\\Users\\Carlos-Lenovo\\Anaconda3\\envs",
 }
