@@ -1,5 +1,6 @@
 #%%
-from app.utilities.environment import *
-from app.utilities.candlestick import *
-from app.utilities.get_data import *
-from app.utilities.indicators import *
+from .environment import API_URL
+from .candlestick import *
+from .get_data import Data
+from .indicators import *
+from .api import EnumDefinitions
