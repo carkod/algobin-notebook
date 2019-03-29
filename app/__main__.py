@@ -2,6 +2,6 @@
 # #Get data from API
 
 #%%
-import algorithms.sudden_inc
+from algorithms import sudden_inc
 
-sudden_inc()
+print(sudden_inc.trend_signal())

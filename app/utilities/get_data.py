@@ -12,14 +12,14 @@ class Data:
     ticker24_url = API_URL.BINANCEAPI_TICKER24
     candlestick_url = API_URL.BINANCEAPI_CANDLESTICK
 
-    def __init__(self, symbol, interval="1d",assetMarket="BNB",asset="BTT"):
+    def __init__(self, symbol, interval):
         self.interval = interval
-        if (asset != None) and (assetMarket != None):
-            self.asset = asset
-            self.assetMarket = assetMarket
-            self.symbol = asset + assetMarket
-        else:
-            self.symbol = symbol
+        # if (asset != None) and (assetMarket != None):
+        #     self.asset = asset
+        #     self.assetMarket = assetMarket
+        #     self.symbol = asset + assetMarket
+        # else:
+        self.symbol = symbol
         
 
     def request_data(self):

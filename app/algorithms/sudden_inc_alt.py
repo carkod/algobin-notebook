@@ -18,12 +18,12 @@ def __init__():
     interval = EnumDefinitions.chart_intervals[2:5]
 
 #%%
-from bokeh.plotting import figure, show
-def plot_algo(object):
-    """Bokeh plotting (breaks debugging)
+# # from bokeh.plotting import figure, show
+# def plot_algo(object):
+#     """Bokeh plotting (breaks debugging)
 
-    """
-    show(candlestick.candlestick_plot(df))
+#     """
+#     show(candlestick.candlestick_plot(df))
 
 
 def obtain_data():
