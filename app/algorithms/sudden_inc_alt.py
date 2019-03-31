@@ -41,7 +41,6 @@ class Sudden_Inc_Alt:
         k = kst_oscillator(self.df, 10, 25, 20, 30, 10, 10, 10, 15)
         ma_9 = moving_average(self.df, 9)
         new_df = k.merge(ma_9, how='outer')
-        print(new_df.tail())
         new_df.dropna(inplace=True)
         new_df.drop(['Volume', 'Quote asset volume', 'Number of trades',
                     'Taker buy base asset volume', 'Taker buy quote asset volume'], axis=1, inplace=True)
@@ -76,7 +75,7 @@ class Sudden_Inc_Alt:
         last4_df = new_df.tail(4)
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
         # If MACD diff line is higher than Signal line in the last 4 instances = buy
-        diff_macd_signal = last4_df["MACDdiff_25_12"] > last4_df["MACDsign_25_12"]
+        diff_macd_signal = last4_df["KST_10_25_20_30_10_10_10_15"] > last4_df["MA_9"]
         notification_text = 'MACD indicates Strong upward trend for 30minute period'
         coordinates = last4_df.values[-1].tolist()
         return diff_macd_signal.all()
@@ -87,14 +86,15 @@ class Sudden_Inc_Alt:
         last4_df = new_df.tail(1)
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
         # Difference between signal and macd diff
-        diff_macd_signal = last4_df["MACDdiff_25_12"] - last4_df["MACDsign_25_12"]
+        diff_macd_signal = last4_df["KST_10_25_20_30_10_10_10_15"] - last4_df["MA_9"]
         # If diff_macd_signal positive = strong long/buying signal/increase
         # If diff_macd_signal negative = strong short/selling signal/decrease
         return diff_macd_signal.values[-1]
 
 #%%
 gd = Sudden_Inc_Alt(symbol='NEOBNB', interval='15m')
-df = gd.render_kst()
+print(gd.oscillator_signal())
+print(gd.trend_signal())
 
 
 #%%
