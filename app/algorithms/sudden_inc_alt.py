@@ -2,10 +2,10 @@
 
 import pandas as pd
 import numpy as np
-from app.utilities import Data, api
-from app.utilities.indicators import kst_oscillator, keltner_channel, moving_average
-from app.utilities.api import EnumDefinitions
-from app.mailer import algo_notify
+from utilities import Data, api
+from utilities.indicators import kst_oscillator, keltner_channel, moving_average
+from utilities.api import EnumDefinitions
+from mailer import algo_notify
 # %%
 class Sudden_Inc_Alt:
     """ Sudden increase alternative    
@@ -63,7 +63,6 @@ class Sudden_Inc_Alt:
         # If close price is higher than upper BB 4 times - buy
         diff_close_open = last4_df['Close'] > last4_df['KelChU_20']
         notification_text = 'Keltner channels indicate Strong upward trend (higher than upper) for {self.inteval} period in {self.symbol}'
-        algo_notify(notification_text)
         coordinates = last4_df.values[-1].tolist()
         return diff_close_open.all()
 
@@ -78,7 +77,6 @@ class Sudden_Inc_Alt:
         # If MACD diff line is higher than Signal line in the last 4 instances = buy
         diff_macd_signal = last4_df["KST_10_25_20_30_10_10_10_15"] > last4_df["MA_9"]
         notification_text = 'MACD indicates Strong upward trend for {self.interval} period in market {self.symbol}'
-        algo_notify(notification_text)
         coordinates = last4_df.values[-1].tolist()
         return diff_macd_signal.all()
 
@@ -94,9 +92,7 @@ class Sudden_Inc_Alt:
         return diff_macd_signal.values[-1]
 
 #%%
-gd = Sudden_Inc_Alt(symbol='NEOBNB', interval='15m')
-print(gd.oscillator_signal())
-print(gd.trend_signal())
+# gd = Sudden_Inc_Alt(symbol='NEOBNB', interval='15m')
 
 
 #%%
