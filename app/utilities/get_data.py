@@ -9,7 +9,6 @@ from .environment import API_URL
 
 class Data:
     base_url = API_URL.BINANCEAPI_BASE
-    ticker24_url = API_URL.BINANCEAPI_TICKER24
     candlestick_url = API_URL.BINANCEAPI_CANDLESTICK
 
     def __init__(self, symbol, interval):
@@ -29,10 +28,9 @@ class Data:
             'interval': self.interval,
         }
         r = requests.get(self.base_url + self.candlestick_url, params=params)
-        print(r)
         data = r.json()
         return data
-            
+    
 
     def formatData(self, data):
         columns = ['Open time', 'Open', 'High', 'Low', 'Close', 'Volume', 'Close time', 'Quote asset volume',
@@ -60,3 +58,48 @@ class Data:
             data = json.load(json_file)
             return self.formatData(data)
 
+
+#%%
+class Ticker24Data:
+
+    base_url = API_URL.BINANCEAPI_BASE
+    ticker24_url = API_URL.BINANCEAPI_TICKER24
+
+    def __init__(self):
+        """Request only ticker24 data
+        """
+
+    def request_data(self):
+        r = requests.get(self.base_url + self.ticker24_url)
+        data = r.json()
+        return data
+
+    def formatData(self, data):
+        df = pd.DataFrame(data)
+        return df
+
+    def api_data(self):
+        return self.formatData(self.request_data())
+
+
+#%%
+class Ticker_Price:
+
+    base_url = API_URL.BINANCEAPI_BASE
+    ticker_price = API_URL.BINANCEAPI_TICKER_PRICE
+
+    def __init__(self):
+        """Request only ticker24 data
+        """
+
+    def request_data(self):
+        r = requests.get(self.base_url + self.ticker_price)
+        data = r.json()
+        return data
+
+    def formatData(self, data):
+        df = pd.DataFrame(data)
+        return df
+
+    def api_data(self):
+        return self.formatData(self.request_data())

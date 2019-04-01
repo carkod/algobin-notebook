@@ -1,14 +1,14 @@
 # %%
 import sys
 # sys.path.append('D:\\algobin-notebook')
-sys.path.append('C:\\Users\\Carlos-Lenovo\\algobin')
+# sys.path.append('C:\\Users\\Carlos-Lenovo\\algobin')
 
 import pandas as pd
 import numpy as np
-from app.utilities.get_data import Data
-from app.utilities.indicators import bollinger_bands, moving_average, macd
-from app.utilities.api import EnumDefinitions
-from app.mailer import algo_notify
+from utilities.get_data import Data
+from utilities.indicators import bollinger_bands, moving_average, macd
+from utilities.api import EnumDefinitions
+from mailer import algo_notify
 #%%
 class Sudden_Inc:
     """ Sudden increase standard    
@@ -58,7 +58,7 @@ class Sudden_Inc:
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
         # If close price is higher than upper BB 4 times - buy
         diff_close_open = last4_df['Close'] > last4_df['BollingerB_20']
-        notification_text = 'Bollinger bands indicates Strong upward trend for {self.interval} period in market {self.symbol}''
+        notification_text = 'Bollinger bands indicates Strong upward trend for {self.interval} period in market {self.symbol}'
         coordinates = last4_df.values[-1].tolist()
         return diff_close_open.all()
 
@@ -72,7 +72,7 @@ class Sudden_Inc:
         # If MACD diff line is higher than Signal line in the last 4 instances = buy
         diff_macd_signal = last4_df["MACDdiff_25_12"] > last4_df["MACDsign_25_12"]
         notification_text = 'MACD indicates Strong upward trend for {self.interval} period in market {self.symbol}'
-        algo_notify(notification_text)
+        # algo_notify(notification_text)
         coordinates = last4_df.values[-1].tolist()
         return diff_macd_signal.all()
 
@@ -83,7 +83,7 @@ class Sudden_Inc:
         # Difference between signal and macd diff
         diff_macd_signal = last4_df["MACDdiff_25_12"] - last4_df["MACDsign_25_12"]
         notification_text = 'MACD indicates Strong upward trend for {self.interval} period in market {self.symbol}'
-        algo_notify(notification_text)
+        # algo_notify(notification_text)
         # If diff_macd_signal positive = strong long/buying signal/increase
         # If diff_macd_signal negative = strong short/selling signal/decrease
         return diff_macd_signal.values[-1]
