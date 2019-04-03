@@ -43,12 +43,6 @@ class Sudden_Inc:
         new_df.tail()
         return new_df
 
-    # def plot_algo(object):
-    #     """Bokeh plotting (breaks debugging)
-
-    #     """
-    #     show(candlestick.candlestick_plot(df))
-
     def trend_signal(self):
         # Bollinger bands for trend signal in this case
         # Green candle higher than Upper bollinger
@@ -71,7 +65,7 @@ class Sudden_Inc:
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
         # If MACD diff line is higher than Signal line in the last 4 instances = buy
         diff_macd_signal = last4_df["MACDdiff_25_12"] > last4_df["MACDsign_25_12"]
-        notification_text = 'MACD indicates Strong upward trend for {self.interval} period in market {self.symbol}'
+        # notification_text = 'MACD indicates Strong upward trend for {self.interval} period in market {self.symbol}'
         # algo_notify(notification_text)
         coordinates = last4_df.values[-1].tolist()
         return diff_macd_signal.all()
@@ -82,7 +76,7 @@ class Sudden_Inc:
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
         # Difference between signal and macd diff
         diff_macd_signal = last4_df["MACDdiff_25_12"] - last4_df["MACDsign_25_12"]
-        notification_text = 'MACD indicates Strong upward trend for {self.interval} period in market {self.symbol}'
+        # notification_text = 'MACD indicates Strong upward trend for {self.interval} period in market {self.symbol}'
         # algo_notify(notification_text)
         # If diff_macd_signal positive = strong long/buying signal/increase
         # If diff_macd_signal negative = strong short/selling signal/decrease
