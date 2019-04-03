@@ -31,10 +31,17 @@ def filter_prices(p):
     else:
         return False
 
+def filter_symbol(sym):
+    if (base_market not in sym):
+        return sym
+    else:
+        return float('NaN')
+
 data['price'] = pd.to_numeric(data['price'])
 tradable_symbols = data.loc[data['price'].apply(filter_prices), 'symbol']
+tradable_symbols = tradable_symbols.apply(filter_symbol)
+tradable_symbols = tradable_symbols.dropna()
 tradable_symbols.reset_index(drop=True,inplace=True)
-
 # run through each algorithm
 # because binance bans max restries, we need to do it delayed
 
@@ -44,11 +51,11 @@ total_num = len(tradable_symbols)
 
 # recursively run algo every 60 seconds
 def launch_algo(symbol, indexer):
-    indexer += int(1)
+    indexer += 1
     algo = Sudden_Inc(symbol[indexer], '15m')
     
     if ((algo.trend_signal() and algo.oscillator_signal()) and (symbol[indexer] != 'BNBETH')):
-        text = "Buy signal: ".format(symbol=symbol[indexer])
+        text = "Buy signal: {symbol}".format(symbol=symbol[indexer])
         print(text)
         launch_algo(tradable_symbols, indexer)
         # timer = Timer(60.0, launch_algo(tradable_symbols,indexer))
