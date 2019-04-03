@@ -14,7 +14,7 @@ def algo_notify(body):
 
     
     subject = "Algo notification"
-    body = content;
+    content = body
     content  = f'Suject: {subject}\n\n{body}'
     mail.sendmail(EMAIL_ACCOUNT, RECEIVER, content)
     mail.close()

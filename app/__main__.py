@@ -47,20 +47,21 @@ tradable_symbols.reset_index(drop=True,inplace=True)
 
 
 indexer = 0
-total_num = len(tradable_symbols)
+total_num = len(tradable_symbols) - 1
 
 # recursively run algo every 60 seconds
 def launch_algo(symbol, indexer):
     indexer += 1
     algo = Sudden_Inc(symbol[indexer], '15m')
     
-    if ((algo.trend_signal() and algo.oscillator_signal()) and (symbol[indexer] != 'BNBETH')):
+    if ((algo.trend_signal() and algo.oscillator_signal()) and (indexer < total_num) and (symbol[indexer] != 'BNBETH')):
         text = "Buy signal: {symbol}".format(symbol=symbol[indexer])
         print(text)
+        algo_notify(text)
         launch_algo(tradable_symbols, indexer)
         # timer = Timer(60.0, launch_algo(tradable_symbols,indexer))
         # timer.start()
-        # algo_notify(text)
+        
     else:
         print('false, next one', indexer)
         launch_algo(tradable_symbols, indexer)    
