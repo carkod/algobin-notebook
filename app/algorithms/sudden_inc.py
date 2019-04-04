@@ -29,7 +29,7 @@ class Sudden_Inc:
     def render_bb(self):
         
         bb = bollinger_bands(self.df, 20)
-        new_df = pd.concat([self.df, bb], sort=False)
+        new_df = self.df.merge(bb)
         new_df.dropna(inplace=True)
         new_df.drop(['Volume', 'Quote asset volume', 'Number of trades','Taker buy base asset volume', 'Taker buy quote asset volume'], axis=1, inplace=True)
         return new_df
@@ -52,7 +52,7 @@ class Sudden_Inc:
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
         # If close price is higher than upper BB 4 times - buy
         diff_close_open = last4_df['Close'] > last4_df['BollingerB_20']
-        notification_text = 'Bollinger bands indicates Strong upward trend for {self.interval} period in market {self.symbol}'
+        # notification_text = 'Bollinger bands indicates Strong upward trend for {self.interval} period in market {self.symbol}'
         coordinates = last4_df.values[-1].tolist()
         return diff_close_open.all()
 

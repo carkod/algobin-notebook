@@ -32,7 +32,7 @@ def filter_prices(p):
         return False
 
 def filter_symbol(sym):
-    if (base_market not in sym):
+    if (sym.rfind(base_market) != -1):
         return sym
     else:
         return float('NaN')
@@ -57,14 +57,17 @@ def launch_algo(symbol, indexer):
     if ((algo.trend_signal() and algo.oscillator_signal()) and (indexer < total_num) and (symbol[indexer] != 'BNBETH')):
         text = "Buy signal: {symbol}".format(symbol=symbol[indexer])
         print(text)
-        algo_notify(text)
+        # algo_notify(text)
         launch_algo(tradable_symbols, indexer)
         # timer = Timer(60.0, launch_algo(tradable_symbols,indexer))
         # timer.start()
-        
+    
+    elif indexer > total_num:
+        return False
+
     else:
         print('false, next one', indexer)
-        launch_algo(tradable_symbols, indexer)    
+        launch_algo(tradable_symbols, indexer)
     
     
 
