@@ -1,7 +1,3 @@
-#%% [markdown]
-# #Get data from API
-
-#%%
 import pandas as pd
 from algorithms.sudden_inc import Sudden_Inc
 from algorithms.sudden_inc_alt import Sudden_Inc_Alt
@@ -37,9 +33,16 @@ def filter_symbol(sym):
     else:
         return float('NaN')
 
+def filter_symbol_usd(sym):
+    usd = ["USDT", "USDC", "TUSD", USDS]
+    if (sym in usd):
+        return sym
+    else:
+        return float('NaN')
+
 data['price'] = pd.to_numeric(data['price'])
 tradable_symbols = data.loc[data['price'].apply(filter_prices), 'symbol']
-tradable_symbols = tradable_symbols.apply(filter_symbol)
+# tradable_symbols = tradable_symbols.apply(filter_symbol)
 tradable_symbols = tradable_symbols.dropna()
 tradable_symbols.reset_index(drop=True,inplace=True)
 # run through each algorithm
@@ -69,6 +72,4 @@ def launch_algo(symbol, indexer):
         print('false, next one', indexer)
         launch_algo(tradable_symbols, indexer)
     
-    
-
 launch_algo(tradable_symbols, indexer)

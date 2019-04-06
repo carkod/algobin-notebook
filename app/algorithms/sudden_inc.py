@@ -50,6 +50,12 @@ class Sudden_Inc:
         new_df = self.render_bb()
         last4_df = new_df.tail(4)
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
+        # If few trades, do not continue executing
+        diff_low_trades = last4_df.loc[last4_df["Close"] == last4_df["Open"]]
+        if diff_low_trades.empty:
+            pass
+        else:
+            return False
         # If close price is higher than upper BB 4 times - buy
         diff_close_open = last4_df['Close'] > last4_df['BollingerB_20']
         # notification_text = 'Bollinger bands indicates Strong upward trend for {self.interval} period in market {self.symbol}'
@@ -63,6 +69,12 @@ class Sudden_Inc:
         new_df = self.render_macd()
         last4_df = new_df.tail(4)
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
+        # If few trades, do not continue executing
+        diff_low_trades = last4_df.loc[last4_df["Close"] == last4_df["Open"]]
+        if diff_low_trades.empty:
+            pass
+        else:
+            return False
         # If MACD diff line is higher than Signal line in the last 4 instances = buy
         diff_macd_signal = last4_df["MACDdiff_25_12"] > last4_df["MACDsign_25_12"]
         # notification_text = 'MACD indicates Strong upward trend for {self.interval} period in market {self.symbol}'
@@ -74,6 +86,12 @@ class Sudden_Inc:
         new_df = self.render_macd()
         last4_df = new_df.tail(1)
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
+        # If few trades, do not continue executing
+        diff_low_trades = last4_df.loc[last4_df["Close"] == last4_df["Open"]]
+        if diff_low_trades.empty:
+            pass
+        else:
+            return False
         # Difference between signal and macd diff
         diff_macd_signal = last4_df["MACDdiff_25_12"] - last4_df["MACDsign_25_12"]
         # notification_text = 'MACD indicates Strong upward trend for {self.interval} period in market {self.symbol}'
