@@ -62,15 +62,9 @@ class Sudden_Inc_Alt:
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
         
         # If close price is higher than upper BB 4 times - buy
-        diff_close_open = last4_df['Close'] > last4_df['KelChU_20']
+        diff_close_open = last4_df['Close'] < last4_df['KelChU_20'] # Change this for correct KelChU (lower)
         notification_text = 'Keltner channels indicate Strong upward trend (higher than upper) for {self.inteval} period in {self.symbol}'
         coordinates = last4_df.values[-1].tolist()
-        # If no trades (close = open)
-        diff_low_trades = last4_df.loc[last4_df["Close"] == last4_df["Open"]]
-        if diff_low_trades.empty:
-            return diff_close_open.all()
-        else:
-            return False
         return diff_close_open.all()
 
 
@@ -81,17 +75,13 @@ class Sudden_Inc_Alt:
         new_df = self.render_kst()
         last4_df = new_df.tail(4)
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
+        # If few trades, do not continue executing
+        return self.low_trades(last4_df)
         # If MACD diff line is higher than Signal line in the last 4 instances = buy
-        diff_macd_signal = last4_df["KST_10_25_20_30_10_10_10_15"] > last4_df["MA_9"]
+        diff_macd_signal = last4_df["KST_10_25_20_30_10_10_10_15"] < last4_df["MA_9"] 
         notification_text = 'MACD indicates Strong upward trend for {self.interval} period in market {self.symbol}'
         coordinates = last4_df.values[-1].tolist()
-        # If no trades (close = open)
-        diff_low_trades = last4_df.loc[last4_df["Close"] == last4_df["Open"]]
-        if diff_low_trades.empty:
-            return diff_macd_signal.all()
-        else:
-            return False
-        # return diff_macd_signal.all()
+        return diff_macd_signal.all()
 
 
     def oscillator_strength(self):
