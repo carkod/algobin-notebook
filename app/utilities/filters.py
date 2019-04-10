@@ -25,11 +25,11 @@ class Buy_Filters:
 
     def filter_symbol(self, df):
         # these coins are non-purchasable, or market
-        usd = ["USDT", "USDC", "TUSD", "USDS", "PAX", "BNBETH"]
-        check = lambda sym:sym not in usd
-        data = df.loc[df['symbol'].apply(check)]
-        print(data)
-        # if sym not in usd:
-        #     return sym
-        # else:
-        #     return float('NaN')
+        usd = ["USDT", "USDC", "TUSD", "USDS", "PAXBNB", "BNBETH"]
+        data = df[~df['symbol'].isin(usd)]
+        return data
+
+    def clean(self, data):
+        data.dropna(inplace=True)
+        data.reset_index(drop=True,inplace=True)
+        return data
