@@ -5,6 +5,7 @@ from mailer import algo_notify
 from utilities.get_data import Ticker_Price
 from mailer import algo_notify
 from threading import Timer
+from utilities.filters import Buy_Filters
 
 def run_algo():
 
@@ -21,25 +22,7 @@ def run_algo():
 
 
     # Create list of crpto
-    def filter_prices(p):
-        if(p > min_price) & (p < max_price):
-            return True
-        else:
-            return False
-
-    def filter_market(sym):
-        if (sym.rfind(base_market) != -1):
-            return sym
-        else:
-            return float('NaN')
-
-    def filter_symbol(sym):
-        # these coins are non-purchasable, or market
-        usd = ["USDT", "USDC", "TUSD", "USDS", "PAX", "BNBETH"]
-        if sym not in usd:
-            return sym
-        else:
-            return float('NaN')
+    
 
     # recursively run algo every 60 seconds
     def launch_sudden_inc(symbol, indexer):
@@ -62,7 +45,7 @@ def run_algo():
                 # timer = Timer(restart_time, launch_sudden_inc(tradable_symbols,indexer))
                 # timer.start()
 
-    def launch_sudden_inc_alt(symbol, indexer):
+    def launch_sudden_inc_alt(symbol, indexer, total_num):
         indexer += 1
         algo = Sudden_Inc_Alt(symbol[indexer], '15m')
         
@@ -70,12 +53,12 @@ def run_algo():
             text = "Buy signal: {symbol}".format(symbol=symbol[indexer])
             print(text)
             # algo_notify(text)
-            launch_sudden_inc_alt(tradable_symbols, indexer)
+            launch_sudden_inc_alt(symbol, indexer, total_num)
             
         else:
             if indexer < total_num:
                 print('false, launch again', indexer)
-                launch_sudden_inc_alt(tradable_symbols, indexer)
+                launch_sudden_inc_alt(symbol, indexer, total_num)
             else:
                 indexer = 0
                 return print('no more to launch')
@@ -84,28 +67,24 @@ def run_algo():
 
 
     data['price'] = pd.to_numeric(data['price'])
-    data.loc[data['price'].apply(filter_prices), 'symbol']
-    data.dropna(inplace=True)
-    tradable_symbols = data.apply(filter_market)
-    tradable_symbols = data['symbol'].apply(filter_symbol)
-    
-    tradable_symbols.dropna(inplace=True)
-    
-    tradable_symbols.reset_index(drop=True,inplace=True)
-    # run through each algorithm
-    # because binance bans max restries, we need to do it delayed
-
-
+    b = Buy_Filters(data)
+    data = b.filter_market(data, base_market)
+    # data = b.filter_symbol(data)
+    data = b.filter_prices(data, min_price, max_price)
     indexer = 0
-    total_num = len(tradable_symbols) - 1
+    total_num = len(data['symbol']) - 1
 
-    # Less restrictive uses KC, which buys signal and sell signal comes earlier
-    # Bands are narrower
-    # Osciallator is less volatile (KTC)
-    less_restrictive_algo = launch_sudden_inc(tradable_symbols, indexer)
-    # More restrictive uses BB, which buys signal and sell signal comes later
-    # Bands are wider
-    # Oscillator is more volatile (MACD)
-    more_restrictive_algo = launch_sudden_inc_alt(tradable_symbols, indexer)
-    
-    # launch_sudden_inc_alt(tradable_symbols, indexer)
+    """ 
+        Less restrictive uses KC, which buys signal and sell signal comes earlier
+        Bands are narrower
+        Osciallator is less volatile (KTC)
+    """
+    # less_restrictive_algo = launch_sudden_inc(tradable_symbols, indexer)
+
+    """
+        More restrictive uses BB, which buys signal and sell signal comes later
+        Bands are wider
+        Oscillator is more volatile (MACD)
+        more_restrictive_algo = launch_sudden_inc_alt(tradable_symbols, indexer)
+    """
+    launch_sudden_inc_alt(data['symbol'], indexer, total_num)
