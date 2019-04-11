@@ -19,13 +19,19 @@ def run_algo():
     ticker = Ticker_Price()
     data = ticker.api_data()
     restart_time = 60.0
+    purchase_list = []
 
 
-    # Create list of crpto
+    # Reporting after algo finished
+    def report(list):
+        for coin in list:
+            message = 'Buy signal for: {}'.format(coin)
+            algo_notify(message)
     
 
     # recursively run algo every 60 seconds
     def launch_sudden_inc(symbol, indexer, total_num):
+        print('Running Bollinger bands Algo')
         indexer += 1
         algo = Sudden_Inc(symbol[indexer], '15m')
         
@@ -41,16 +47,19 @@ def run_algo():
                 launch_sudden_inc(symbol, indexer, total_num)
             else:
                 indexer = 0
+                report(purchase_list)
                 return print('no more to launch')
                 # timer = Timer(restart_time, launch_sudden_inc(symbol,indexer))
                 # timer.start()
 
     def launch_sudden_inc_alt(symbol, indexer, total_num):
+        print('Running Keltner Channels algo')
         indexer += 1
         algo = Sudden_Inc_Alt(symbol[indexer], '15m')
         
         if ((algo.trend_signal() and algo.oscillator_signal()) and (symbol[indexer] != 'BNBETH')):
             text = "Buy signal: {symbol}".format(symbol=symbol[indexer])
+            purchase_list.append(symbol[indexer])
             print(text)
             # algo_notify(text)
             launch_sudden_inc_alt(symbol, indexer, total_num)
@@ -61,7 +70,9 @@ def run_algo():
                 launch_sudden_inc_alt(symbol, indexer, total_num)
             else:
                 indexer = 0
-                return print('no more to launch')
+                # report(purchase_list)
+                print('no more to launch')
+                return 
                 # timer = Timer(restart_time, launch_sudden_inc_alt(symbol,indexer))
                 # timer.start()
 
