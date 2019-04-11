@@ -5,9 +5,11 @@ Research Jupyter Notebook for algobin algorithmic trading
 
 ## To Develop
 
-1. indicators in todo list
-2. Main Algorithm
-3. Folder structure (Filters -> Orders)
+- Get list of crypto currencies in funds
+- run sell algo with this list
+
+
+- functionality on increasing intervals
 
 
 
