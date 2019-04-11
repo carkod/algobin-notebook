@@ -66,30 +66,24 @@ class Sell:
         # notification_text = 'Bollinger bands indicates Strong upward trend for {self.interval} period in market {self.symbol}'
         coordinates = last4_df.values[-1].tolist()
         # If few trades, do not continue executing
-        # diff_low_trades = last4_df.loc[last4_df["Close"] == last4_df["Open"]]
-        # if diff_low_trades.empty:
-        #     return diff_close_open.all()
-        # else:
-        #     return False
-        return diff_close_open.all()
+        diff_low_trades = last4_df.loc[last4_df["Close"] == last4_df["Open"]]
+        if diff_low_trades.empty:
+            return diff_close_open.all()
+        else:
+            return False
+        # return diff_close_open.all()
 
     def oscillator_signal(self):
         # MACD for oscillator signal
         # Green candle higher than Upper bollinger
         # Last 4 values are true
         new_df = self.render_macd()
-        last4_df = new_df.tail(4)
+        last4_df = new_df.tail(2)
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
         # If MACD diff line is higher than Signal line in the last 4 instances = buy
         diff_macd_signal = last4_df["MACDdiff_25_12"] < last4_df["MACDsign_25_12"]
         # notification_text = 'MACD indicates Strong upward trend for {self.interval} period in market {self.symbol}'
-        # algo_notify(notification_text)
         coordinates = last4_df.values[-1].tolist()
-        diff_low_trades = last4_df.loc[last4_df["Close"] == last4_df["Open"]]
-        # if diff_low_trades.empty:
-        #     return diff_macd_signal.all()
-        # else:
-        #     return False
         return diff_macd_signal.all()
 
     def oscillator_strength(self):
