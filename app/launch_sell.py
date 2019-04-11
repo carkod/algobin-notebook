@@ -8,29 +8,24 @@ from threading import Timer
 
 
 def run_algo():
-
-"""
-    Sell Algorith is much simpler
-    - Passing only symbol and interval to get Candelstick data
-    - Put symbol and interval parameters in algo
-    - This is for a single launch, a single cryptocurrency in a single market
-"""
+    
     symbol = 'BNBBTC'
     interval = '15m'
-    
-    # recursively run algo every 60 seconds
+
     def launch_algo(symbol, interval):
         algo = Sell(symbol, interval)
 
-        if ((algo.trend_signal() and algo.oscillator_signal())):
-            text = "Sell signal: {symbol}".format(symbol=symbol)
+        if (algo.trend_signal() and algo.oscillator_signal()):
+            text = "Sell signal: {}".format(symbol)
             print(text)
-            algo_notify(text)
+            # algo_notify(text)
 
         else:
-            print("false, do not sell {symbol}".format(symbol=symbol)
-
-
+            text = "false, do not sell {}".format(symbol)
+            print(text)
+    
+    # run algo every 60 seconds
     launch_algo(symbol, interval)
-    # timer = Timer(60.0, launch_algo(tradable_symbols,indexer))
-    # timer.start()
+    # # timer = Timer(60.0, launch_algo(tradable_symbols,indexer))
+    # # timer.start()
+    

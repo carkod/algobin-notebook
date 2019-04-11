@@ -12,7 +12,7 @@ from mailer import algo_notify
 # %%
 
 
-class Sell_Algo:
+class Sell:
     """ Sudden increase standard
         - Bollinger bands
         - MACD
@@ -62,7 +62,7 @@ class Sell_Algo:
         last4_df = new_df.tail(4)
         last4_df.drop(['Low', 'High', 'Open time'], axis=1, inplace=True)
         # If close price is higher than upper BB 4 times - buy
-        diff_close_open = last4_df['Close'] < last4_df['Bollinger%_20']
+        diff_close_open = last4_df['Close'] < last4_df["Bollinger%b_20"]
         # notification_text = 'Bollinger bands indicates Strong upward trend for {self.interval} period in market {self.symbol}'
         coordinates = last4_df.values[-1].tolist()
         # If few trades, do not continue executing
