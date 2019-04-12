@@ -9,7 +9,7 @@ from threading import Timer
 
 def run_algo():
     
-    symbol = 'LTCBNB'
+    symbol = 'NANOBNB'
     interval = '15m'
 
     def launch_sudden_dec(sym, int):
