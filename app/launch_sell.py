@@ -34,8 +34,10 @@ def run_algo():
 
     # recursive variables
     indexer = 0
-    total_num = len(data['symbol']) - 1
+    total_num = len(sell_symbols) - 1
     interval = '15m'
+    restart_time = 60.0
+    purchase_list = []
     
     def launch_sudden_dec(sym, int, indexer, total_num):
         print('Running Bollinger bands Algo')
@@ -46,12 +48,12 @@ def run_algo():
             text = "Buy signal: {symbol}".format(symbol=sym[indexer])
             print(text)
             # algo_notify(text)
-            launch_sudden_dec(symbol, int, indexer, total_num)
+            launch_sudden_dec(sym, int, indexer, total_num)
 
         else:
             if indexer < total_num:
                 print('false, launch again', indexer)
-                launch_sudden_dec(symbol, int, indexer, total_num)
+                launch_sudden_dec(sym, int, indexer, total_num)
             else:
                 indexer = 0
                 # report(purchase_list)
@@ -63,19 +65,19 @@ def run_algo():
     def launch_sudden_dec_alt(sym, int, indexer, total_num):
         print('Running Keltner Channels algo')
         indexer += 1
-        algo = Sudden_Inc_Alt(sym[indexer], '15m')
+        algo = Sell_Alt(sym[indexer], '15m')
 
         if (algo.trend_signal() and algo.oscillator_signal() and algo.oscillator_strength() < 0):
             text = "Sell signal: {symbol}".format(symbol=sym[indexer])
-            purchase_list.append(symbol[indexer])
+            purchase_list.append(sym[indexer])
             print(text)
             # algo_notify(text)
-            launch_sudden_dec_alt(symbol, int, indexer, total_num)
+            launch_sudden_dec_alt(sym, int, indexer, total_num)
 
         else:
             if indexer < total_num:
                 print('false, launch again', indexer)
-                launch_sudden_dec_alt(symbol, int, indexer, total_num)
+                launch_sudden_dec_alt(sym, int, indexer, total_num)
             else:
                 indexer = 0
                 # report(purchase_list)
