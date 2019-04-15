@@ -4,8 +4,12 @@ import requests
 import json
 import pandas as pd
 import numpy as np
+import time as tm
 from .environment import API_URL
-
+import hmac
+import hashlib
+from urllib.parse import urlparse, urlencode
+import math
 
 class Data:
     base_url = API_URL.BINANCEAPI_BASE
@@ -19,7 +23,6 @@ class Data:
         #     self.symbol = asset + assetMarket
         # else:
         self.symbol = symbol
-        
 
     def request_data(self):
         # Get data for a single crypto e.g. BTT in BNB market
@@ -30,7 +33,6 @@ class Data:
         r = requests.get(self.base_url + self.candlestick_url, params=params)
         data = r.json()
         return data
-    
 
     def formatData(self, data):
         columns = ['Open time', 'Open', 'High', 'Low', 'Close', 'Volume', 'Close time', 'Quote asset volume',
@@ -59,7 +61,7 @@ class Data:
             return self.formatData(data)
 
 
-#%%
+# %%
 class Ticker24Data:
 
     base_url = API_URL.BINANCEAPI_BASE
@@ -82,7 +84,7 @@ class Ticker24Data:
         return self.formatData(self.request_data())
 
 
-#%%
+# %%
 class Ticker_Price:
 
     base_url = API_URL.BINANCEAPI_BASE
@@ -93,7 +95,8 @@ class Ticker_Price:
         """
 
     def request_data(self):
-        r = requests.get(self.base_url + self.ticker_price)
+        url = self.base_url + self.ticker_price
+        r = requests.get(url=url)
         data = r.json()
         return data
 
@@ -103,3 +106,121 @@ class Ticker_Price:
 
     def api_data(self):
         return self.formatData(self.request_data())
+
+
+class Account:
+    base_url = API_URL.BINANCEAPI_BASE
+    account_url = API_URL.BINANCEAPI_ACCOUNT
+    secret = API_URL.BINANCE_SECRET
+    key = API_URL.BINANCE_KEY
+    timestamp = int(round(tm.time() * 1000))
+
+    def __init__(self, recvWindow=None):
+        self.recvWindow = recvWindow
+
+    def request_data(self):
+        timestamp = int(round(tm.time() * 1000))
+        # Get data for a single crypto e.g. BTT in BNB market
+        params = {'recvWindow': 10000, 'timestamp': timestamp }
+        headers = { 'X-MBX-APIKEY': self.key }
+        url = self.base_url + self.account_url
+
+        # Prepare request for signing
+        r =  requests.Request('GET', url=url, params=params, headers=headers)
+        prepped = r.prepare()
+        query_string = urlparse(prepped.url).query
+        total_params = query_string
+
+        # Generate and append signature
+        signature = hmac.new(self.secret.encode('utf-8'), total_params.encode('utf-8'), hashlib.sha256).hexdigest()
+        params['signature'] = signature
+
+        # Response after request
+        res = requests.get(url=url, params=params, headers=headers)
+        self.handle_error(res)
+        data = res.json()
+        return data
+
+    def api_data(self):
+        return self.request_data()
+        # return self.formatData(self.request_data())
+
+    def static_data(self):
+        with open("app/data/candlestick.json") as json_file:
+            data = json.load(json_file)
+            return self.formatData(data)
+
+    def handle_error(self, req):
+        try:
+            req.raise_for_status()
+        except exceptions.RequestException as e:
+        # catastrophic error. bail.
+            print('handle_error')
+            print(e)
+        except exceptions.Timeout:
+        # Maybe set up for a retry, or continue in a retry loop
+            print('handle_error: Timeout')
+        except exceptions.TooManyRedirects:
+        # Tell the user their URL was bad and try a different one
+            print('handle_error: Too many Redirects')
+        except exceptions.HTTPError as err:
+            print(err)
+            sys.exit(1)
+        
+
+class Exchange_Info:
+    base_url = API_URL.BINANCEAPI_BASE
+    info_url = API_URL.BINANCEAPI_EXCHANGE_INFO
+
+
+    def __init__(self):
+        """Request only ticker24 data
+        """
+
+    def request_data(self):
+        url = self.base_url + self.info_url
+        r = requests.get(url=url)
+        data = r.json()
+        return data
+
+    def get_exchange_filters(self):
+        exchangeFilters = self.request_data()['exchangeFilters']
+        df = pd.DataFrame(exchangeFilters)
+        return df
+
+    def get_rate_limits(self):
+        rateLimits = self.request_data().rateLimits
+        df = pd.DataFrame(rateLimits)
+        return df
+    
+    def server_time(self):
+        serverTime = self.request_data().serverTime
+        df = pd.DataFrame(serverTime)
+        return df
+
+    def server_timezone(self):
+        timezone = self.request_data().timezone
+        df = pd.DataFrame(timezone)
+        return df
+
+    def get_symbols(self):
+        symbols = self.request_data()['symbols']
+        df = pd.DataFrame(symbols)
+        return df
+    
+    def handle_error(self, req):
+        try:
+            req.raise_for_status()
+        except exceptions.RequestException as e:
+        # catastrophic error. bail.
+            print('handle_error')
+            print(e)
+        except exceptions.Timeout:
+        # Maybe set up for a retry, or continue in a retry loop
+            print('handle_error: Timeout')
+        except exceptions.TooManyRedirects:
+        # Tell the user their URL was bad and try a different one
+            print('handle_error: Too many Redirects')
+        except exceptions.HTTPError as err:
+            print(err)
+            sys.exit(1)
