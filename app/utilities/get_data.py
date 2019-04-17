@@ -1,6 +1,7 @@
 # %%
 # libraries
 import requests
+import sys
 import json
 import pandas as pd
 import numpy as np
@@ -94,9 +95,10 @@ class Ticker_Price:
         """Request only ticker24 data
         """
 
-    def request_data(self):
+    def request_data(self, symbol=None):
         url = self.base_url + self.ticker_price
-        r = requests.get(url=url)
+        params = {'symbol': symbol }
+        r = requests.get(url=url, params=params)
         data = r.json()
         return data
 
@@ -145,26 +147,25 @@ class Account:
         return self.request_data()
         # return self.formatData(self.request_data())
 
-    def static_data(self):
-        with open("app/data/candlestick.json") as json_file:
-            data = json.load(json_file)
-            return self.formatData(data)
+    # def static_data(self):
+    #     with open("app/data/candlestick.json") as json_file:
+    #         data = json.load(json_file)
+    #         return self.formatData(data)
 
     def handle_error(self, req):
         try:
             req.raise_for_status()
-        except exceptions.RequestException as e:
-        # catastrophic error. bail.
-            print('handle_error')
-            print(e)
-        except exceptions.Timeout:
+        except requests.exceptions.HTTPError as err:
+            print(err)
+        except requests.exceptions.Timeout:
         # Maybe set up for a retry, or continue in a retry loop
             print('handle_error: Timeout')
-        except exceptions.TooManyRedirects:
+        except requests.exceptions.TooManyRedirects:
         # Tell the user their URL was bad and try a different one
             print('handle_error: Too many Redirects')
-        except exceptions.HTTPError as err:
-            print(err)
+        except requests.exceptions.RequestException as e:
+        # catastrophic error. bail.
+            print('handle_error', e)
             sys.exit(1)
         
 
@@ -211,16 +212,15 @@ class Exchange_Info:
     def handle_error(self, req):
         try:
             req.raise_for_status()
-        except exceptions.RequestException as e:
-        # catastrophic error. bail.
-            print('handle_error')
-            print(e)
-        except exceptions.Timeout:
+        except requests.exceptions.HTTPError as err:
+            print(err)
+        except requests.exceptions.Timeout:
         # Maybe set up for a retry, or continue in a retry loop
             print('handle_error: Timeout')
-        except exceptions.TooManyRedirects:
+        except requests.exceptions.TooManyRedirects:
         # Tell the user their URL was bad and try a different one
             print('handle_error: Too many Redirects')
-        except exceptions.HTTPError as err:
-            print(err)
+        except requests.exceptions.RequestException as e:
+        # catastrophic error. bail.
+            print('handle_error', e)
             sys.exit(1)
