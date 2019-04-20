@@ -178,7 +178,15 @@ class Exchange_Info:
         """Request only ticker24 data
         """
 
+    def lot_size(self):
+        url = self.base_url + self.info_url
+        r = requests.get(url=url)
+        data = r.json()
+        print(data)
+        pass
+
     def request_data(self):
+        # self.lot_size()
         url = self.base_url + self.info_url
         r = requests.get(url=url)
         data = r.json()

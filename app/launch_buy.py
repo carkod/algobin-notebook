@@ -1,16 +1,16 @@
+from threading import Timer
+
 import pandas as pd
+
 from algorithms.sudden_inc import Sudden_Inc
 from algorithms.sudden_inc_alt import Sudden_Inc_Alt
 from mailer import algo_notify
-from utilities.get_data import Ticker_Price
-from mailer import algo_notify
-from threading import Timer
 from utilities.filters import Buy_Filters
+from utilities.get_data import Ticker_Price
+
 
 def run_algo():
 
-    # Get all cryptos which are less than $20
-    price_filter = '20'
     # Set market to BNB
     base_market = 'BNB'
     # High volume?
@@ -18,7 +18,7 @@ def run_algo():
     max_price = 20 # Change depending on value in Real currency
     ticker = Ticker_Price()
     data = ticker.api_data()
-    restart_time = 60.0
+    # restart_time = 60.0
     purchase_list = []
 
 
@@ -79,7 +79,7 @@ def run_algo():
 
     data['price'] = pd.to_numeric(data['price'])
     b = Buy_Filters(data)
-    data = b.filter_market(data, base_market)
+    # data = b.filter_market(data, base_market)
     data = b.filter_symbol(data)
     data = b.filter_prices(data, min_price, max_price)
     indexer = 0

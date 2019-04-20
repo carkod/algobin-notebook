@@ -1,22 +1,13 @@
+from threading import Timer
+
 import pandas as pd
+
 from algorithms.sell_bb import Sell
 from algorithms.sell_kc import Sell_Alt
 from mailer import algo_notify
-from utilities.get_data import Ticker_Price
-from mailer import algo_notify
-from threading import Timer
-from utilities.get_data import Account, Ticker_Price, Exchange_Info
+from utilities.account import get_balances
+from utilities.get_data import Account, Exchange_Info, Ticker_Price
 
-def get_balances():
-    a = Account()
-    data = a.api_data()["balances"]
-    df = pd.DataFrame(data)
-    df['free'] = pd.to_numeric(df['free'])
-    df['asset'] = df['asset'].astype(str)
-    df.drop('locked', axis=1, inplace=True)
-    df = df[df['free'] > 0.1]
-    df.reset_index(drop=True,inplace=True)
-    return df
 
 def run_algo():
     
@@ -45,7 +36,7 @@ def run_algo():
         algo = Sell(sym[indexer], int)
 
         if (algo.trend_signal() and algo.oscillator_signal() and algo.oscillator_strength() < 0):
-            text = "Buy signal: {symbol}".format(symbol=sym[indexer])
+            text = "Sell signal: {symbol}".format(symbol=sym[indexer])
             print(text)
             # algo_notify(text)
             launch_sudden_dec(sym, int, indexer, total_num)
@@ -91,4 +82,3 @@ def run_algo():
     launch_sudden_dec_alt(sell_symbols, interval, indexer, total_num)
     # # timer = Timer(60.0, launch_algo(tradable_symbols,indexer))
     # # timer.start()
-    
